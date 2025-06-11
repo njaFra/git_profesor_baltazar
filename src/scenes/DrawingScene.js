@@ -11,11 +11,6 @@ export default class DrawingScene extends BaseScene {
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateFrameCount = this.updateFrameCount.bind(this);
-
-    /*this.drawing = false;
-    this.prevPos = null;
-    this.color = 'black';
-    this.lineWidth = 10;*/
   }
 
   async init() {
@@ -74,26 +69,6 @@ export default class DrawingScene extends BaseScene {
     this.input.on('move', this.handleMove);
     this.input.on('click', this.handleClick);
     this.input.on('frameCount', this.updateFrameCount);
-/*
-    this.input.on('move', ({x,y,i})=>{
-      const xPx = x * this.canvasElement.clientWidth;
-      const yPx = y * this.canvasElement.clientHeight;
-      if(this.drawing && this.prevPos){
-        this.canvasCtx.beginPath();
-        this.canvasCtx.moveTo(this.prevPos.x, this.prevPos.y);
-        this.canvasCtx.lineTo(xPx, yPx);
-        this.canvasCtx.strokeStyle = this.color;
-        this.canvasCtx.lineWidth = this.lineWidth;
-        this.canvasCtx.stroke();
-        this.canvasCtx.closePath();
-      }
-      this.prevPos = { x: xPx, y: yPx };
-    });*/
-/*
-    this.input.on('click', ({x,y})=>{
-      this.drawing = !this.drawing;
-      if(this.drawing) this.prevPos = { x: x*this.canvasElement.clientWidth, y: y*this.canvasElement.clientHeight };
-    });*/
   }
 
   update(dt) {}
