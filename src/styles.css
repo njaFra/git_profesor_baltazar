@@ -53,6 +53,23 @@ body, html {
     height: auto;
     z-index: 999;
 }
+.cursor-wrapper {
+    position: absolute;
+    pointer-events: none;
+    width: auto;
+    height: auto;
+}
+.cursor-indicator {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    left: 0;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    pointer-events: none;
+}
 .btn {
     border: 0cm;
     cursor: none;

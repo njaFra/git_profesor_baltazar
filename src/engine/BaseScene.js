@@ -37,18 +37,27 @@ export default class BaseScene {
     document.body.appendChild(cursor);
     this.handCursors.set(id, cursor);
     return cursor;*/
-
     const wrapper = document.createElement('div');
     wrapper.classList.add('cursor-wrapper');
-    const cursor = document.createElement('img');
-    cursor.classList.add('mouse_pointer');
-    cursor.id = `cursor_${id}`;
-    cursor.src = this.assets.images.get('cursor').src;
-    Object.assign(cursor.style, {
+    const img = document.createElement('img');
+    img.classList.add('mouse_pointer');
+    img.id = `cursor_${id}`;
+    img.src = this.assets.images.get('cursor').src;
+    Object.assign(img.style, {
       pointerEvents: 'none',
       backgroundSize: 'cover',
     });
-    wrapper.appendChild(cursor);
+    wrapper.appendChild(img);
+    wrapper.img = img;
+        const syncSize = () => {
+      wrapper.style.width = `${img.clientWidth}px`;
+      wrapper.style.height = `${img.clientHeight}px`;
+    };
+    if (img.complete) {
+      syncSize();
+    } else {
+      img.onload = syncSize;
+    }
     if (this.useColorIndicator) {
       const indicator = document.createElement('div');
       indicator.classList.add('cursor-indicator');
@@ -106,7 +115,9 @@ export default class BaseScene {
       window.innerHeight + cursor.clientHeight,
       window.innerHeight * state.y
     );
-    const offset = this.cursorOffset(cursor);
+
+    const img = cursor.img || cursor;
+    const offset = this.cursorOffset(img);
     cursor.style.display = 'block';
     cursor.style.left = `${px + offset.x}px`;
     cursor.style.top = `${py + offset.y}px`;

@@ -5,7 +5,7 @@ export default class DrawingScene extends BaseScene {
     super(params);
     this.container = document.getElementById('gameContainer');
     this.useColorIndicator = true;
-    this.cursorOffset = {x:0, y: -cur}
+    this.cursorOffset = img => ({ x: 10, y: -img.clientHeight - 10 });
 
     this.handData = new Map();
     this.baseLineWidth = 80;
@@ -158,12 +158,21 @@ export default class DrawingScene extends BaseScene {
   handleMove({ x, y, i, gesture, thickness }) {
     this.updateCursor(x, y, i);
     const smooth = this.handSmoothed.get(i) || { x, y };
-    const xPx = smooth.x * window.innerWidth - this.canvasElement.offsetLeft;
-    const yPx = smooth.y * window.innerHeight - this.canvasElement.offsetTop;
+    const screenX = smooth.x * window.innerWidth;
+    const screenY = smooth.y * window.innerHeight;
+    const xPx = screenX - this.canvasElement.offsetLeft;
+    const yPx = screenY - this.canvasElement.offsetTop;
 
     let data = this.handData.get(i);
     if (!data) {
-      data = { drawing: false, prevX: xPx, prevY: yPx, color: 'black' };
+      data = {
+        drawing: false,
+        prevX: xPx,
+        prevY: yPx,
+        color: 'black',
+        screenX,
+        screenY,
+      };
       this.handData.set(i, data);
     }
 
@@ -186,6 +195,8 @@ export default class DrawingScene extends BaseScene {
 
     data.currX = xPx;
     data.currY = yPx;
+    data.screenX = screenX;
+    data.screenY = screenY;
   }
 
   handleClick({ x, y }) {
