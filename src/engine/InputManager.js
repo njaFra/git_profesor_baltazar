@@ -6,8 +6,9 @@ import BaseScene from './BaseScene';
 export default class InputManager {
   constructor({ videoElement }) {
     this.video = videoElement;
-    this.handlers = { move: [], click: [] };
+    this.handlers = { move: [], click: [], frameCount: [] };
     this.lastVideoTime = -1;
+    this.lastGestures = {};
   }
 
   async init() {
@@ -56,13 +57,19 @@ export default class InputManager {
               const handId = `cursor_${i}`;
               const x = Utils.xCameraCoordinate(landmarks[8].x);
               const y = Utils.yCameraCoordinate(landmarks[8].y);
-              this.emit('move', { x, y, i });
+              const gesture = results.gestures[i][0].categoryName;
+              const thickness = Math.sqrt(
+                (landmarks[5].x - landmarks[0].x) ** 2 +
+                (landmarks[5].y - landmarks[0].y) ** 2 +
+                (landmarks[5].z - landmarks[0].z) ** 2
+              );
 
-              const mouseGesture = results.gestures[i][0].categoryName;
-              if (mouseGesture === "Pointing_Up" && this.lastGesture !== "Pointing_Up") {
+              this.emit('move', { x, y, i, gesture, thickness });
+
+              if (gesture === "Pointing_Up" && this.lastGesture[i] !== "Pointing_Up") {
                 this.emit('click', { x: x, y: y });
               }
-              this.lastGesture = mouseGesture;
+              this.lastGesture = gesture;
           }
       }
     }

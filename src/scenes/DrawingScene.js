@@ -5,17 +5,25 @@ export default class DrawingScene extends BaseScene {
     super(params);
     this.container = document.getElementById('gameContainer');
 
-    this.drawing = false;
+    this.handData = new Map();
+    this.baseLineWidth = 40;
+
+    this.handleMove = this.handleMove.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.updateFrameCount = this.updateFrameCount.bind(this);
+
+    /*this.drawing = false;
     this.prevPos = null;
     this.color = 'black';
-    this.lineWidth = 10;
+    this.lineWidth = 10;*/
   }
 
   async init() {
     await this.assets.loadImage('backButton','/pictures/backButton.png');
+    await this.assets.loadImage('cursor','/pictures/drawingGame/brush.png');
 
     this.sceneEl = document.createElement('div');
-    this.sceneEl.classList.add('container');
+    this.sceneEl.classList.add('container', 'drawing-container');
     this.sceneEl.innerHTML = `
       <div class="firstLayer layer">
         <button class="btn" id="btnBack"><img src="${this.assets.images.get('backButton').src}" height="100%"/></button>
@@ -42,6 +50,8 @@ export default class DrawingScene extends BaseScene {
     this.canvasCtx = this.canvasElement.getContext('2d');
     this.btnBack = this.sceneEl.querySelector('#btnBack');
     this.btnClearBackground = this.sceneEl.querySelector('#btnClearBackground');
+    this.btnRGBPicker = this.sceneEl.querySelector('#btnRGBPicker');
+
     this.colorButtons = {
       green: this.sceneEl.querySelector('#btnGreen'),
       blue: this.sceneEl.querySelector('#btnBlue'),
@@ -61,6 +71,10 @@ export default class DrawingScene extends BaseScene {
       btn.addEventListener('click', ()=>{ this.color = name; this.canvasCtx.strokeStyle = this.color; });
     });
 
+    this.input.on('move', this.handleMove);
+    this.input.on('click', this.handleClick);
+    this.input.on('frameCount', this.updateFrameCount);
+/*
     this.input.on('move', ({x,y,i})=>{
       const xPx = x * this.canvasElement.clientWidth;
       const yPx = y * this.canvasElement.clientHeight;
@@ -74,12 +88,12 @@ export default class DrawingScene extends BaseScene {
         this.canvasCtx.closePath();
       }
       this.prevPos = { x: xPx, y: yPx };
-    });
-
+    });*/
+/*
     this.input.on('click', ({x,y})=>{
       this.drawing = !this.drawing;
       if(this.drawing) this.prevPos = { x: x*this.canvasElement.clientWidth, y: y*this.canvasElement.clientHeight };
-    });
+    });*/
   }
 
   update(dt) {}
@@ -87,12 +101,138 @@ export default class DrawingScene extends BaseScene {
   render() {}
 
   async destroy() {
+    this.input.off('move', this.handleMove);
+    this.input.off('click', this.handleClick);
+    this.input.off('frameCount', this.updateFrameCount);
     window.removeEventListener('resize', this.resize.bind(this));
+    await super.destroy();
     this.sceneEl.remove();
   }
 
   resize() {
     this.canvasElement.width = this.container.clientWidth * 0.96;
     this.canvasElement.height = this.container.clientHeight * 0.7;
+  }
+
+  updateFrameCount() {
+    super.updateFrameCount();
+  }
+
+  findHandFromCursor(x, y) {
+    let closest = null;
+    let closestDist = Infinity;
+    this.handCursors.forEach((cursor, id) => {
+      const rect = cursor.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.hypot(cx - x, cy - y);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = id;
+      }
+    });
+    return closest;
+  }
+
+  setHandColor(id, color, bg) {
+    if (!id) return;
+    const data = this.handData.get(id) || {};
+    data.color = color;
+    this.handData.set(id, data);
+    const cursor = this.handCursors.get(id);
+    if (cursor) cursor.style.backgroundColor = bg;
+  }
+
+  calculateRGBColor(ratio) {
+    let newColor, bgColor;
+    if (ratio <= 1/6){
+        const g = Math.round(ratio * 6 * 255);
+        newColor = `rgb(255, ${g}, 0)`;
+        bgColor = `rgba(255, ${g}, 0, 0.3)`;
+    } else if(ratio <= 2/6){
+        const r = 255 - Math.round((ratio - 1/6) * 6 * 255);
+        newColor = `rgb(${r}, 255, 0)`;
+        bgColor = `rgba(${r}, 255, 0, 0.3)`;
+    } else if(ratio <= 3/6){
+        const b = Math.round((ratio - 2/6) * 6 * 255);
+        newColor = `rgb(0, 255, ${b})`;
+        bgColor = `rgba(0, 255, ${b}, 0.3)`;
+    } else if(ratio <= 4/6){
+        const g = 255 - Math.round((ratio - 3/6) * 6 * 255);
+        newColor = `rgb(0, ${g}, 255)`;
+        bgColor = `rgba(0, ${g}, 255, 0.3)`;
+    } else if(ratio <= 5/6){
+        const r = Math.round((ratio - 4/6) * 6 * 255);
+        newColor = `rgb(${r}, 0, 255)`;
+        bgColor = `rgba(${r}, 0, 255, 0.3)`;
+    } else {
+        const b = 255 - Math.round((ratio - 5/6) * 6 * 255);
+        newColor = `rgb(255, 0, ${b})`;
+        bgColor = `rgba(255, 0, ${b}, 0.3)`;
+    }
+    return { newColor, bgColor };
+  }
+
+  handleMove({ x, y, i, gesture, thickness }) {
+    this.updateCursor(x, y, i);
+    const xPx = x * this.canvasElement.clientWidth;
+    const yPx = y * this.canvasElement.clientHeight;
+
+    let data = this.handData.get(i);
+    if (!data) {
+      data = { drawing: false, prevX: xPx, prevY: yPx, color: 'black' };
+      this.handData.set(i, data);
+    }
+
+    if (gesture === 'Pointing_Up') {
+      if (data.drawing) {
+        this.canvasCtx.beginPath();
+        this.canvasCtx.moveTo(data.prevX, data.prevY);
+        this.canvasCtx.lineTo(xPx, yPx);
+        this.canvasCtx.strokeStyle = data.color;
+        this.canvasCtx.lineWidth = this.baseLineWidth * thickness;
+        this.canvasCtx.stroke();
+        this.canvasCtx.closePath();
+      }
+      data.drawing = true;
+      data.prevX = xPx;
+      data.prevY = yPx;
+    } else {
+      data.drawing = false;
+    }
+
+    data.currX = xPx;
+    data.currY = yPx;
+  }
+
+  handleClick({ x, y }) {
+    const px = x * window.innerWidth;
+    const py = y * window.innerHeight;
+    const el = document.elementFromPoint(px, py);
+    if (!el) return;
+    const handId = this.findHandFromCursor(px, py);
+
+    switch (el.id) {
+      case 'btnBack':
+        this.manager.switch('StartMenu');
+        break;
+      case 'btnClearBackground':
+        this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+        break;
+      case 'btnRGBPicker':
+        if (handId) {
+          const rect = el.getBoundingClientRect();
+          const ratio = (px - rect.left) / rect.width;
+          const { newColor, bgColor } = this.calculateRGBColor(ratio);
+          this.setHandColor(handId, newColor, bgColor);
+        }
+        break;
+      default:
+        const btn = this.colorButtons[el.id];
+        if (btn && handId) {
+          this.setHandColor(handId, btn.color, btn.bg);
+        }
+        if (el.tagName === 'BUTTON' && !btn) el.click();
+    }
   }
 }
