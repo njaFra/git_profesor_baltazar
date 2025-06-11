@@ -1,0 +1,70 @@
+@import url("/FontFamily/fontFamily.css");
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    cursor: none;
+    touch-action: none;
+}
+#gameContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url("/pictures/startMenu/startMenuBackground.png");
+    background-position: 50%;
+    background-size: auto 100%;
+    justify-content: center;
+    align-items: center;
+}
+.imgProfBaltazar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    top: 10%;
+    height: 75%;
+    width: auto;
+}
+.textStyle {
+    color: white;
+    font-family: Marhey;
+}
+.layer {
+    display: block;
+    width: 100%;
+}
+.firstLayer {
+    height: 35%;
+    align-content: center;
+}
+.secondLayer {
+    height: 55%;
+}
+.mouse_pointer {
+    pointer-events: none;
+    position: absolute;
+    width: 10%;
+    height: auto;
+    z-index: 999;
+}
+.btn {
+    border: 0cm;
+    cursor: none;
+}
+.btnGameButtons {
+    background-color: #F48131;
+    width: 50%;
+    height: 12%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-size: 6em;
+    border-radius: 5px;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
