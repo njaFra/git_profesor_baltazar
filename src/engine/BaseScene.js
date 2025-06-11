@@ -8,7 +8,7 @@ export default class BaseScene {
     this.handLastSeen = new Map();
 
     this.MAX_MISSING_FRAMES = 5;
-    this.SMOOTHING = 0.35;
+    this.SMOOTHING = 0.5;
     this.frameCount = 0;
   }
 
@@ -57,8 +57,14 @@ export default class BaseScene {
     state.x += (xNorm - state.x) * this.SMOOTHING;
     state.y += (yNorm - state.y) * this.SMOOTHING;
 
-    const px = Math.min(window.innerWidth  + cursor.clientWidth,  window.innerWidth  * xNorm);
-    const py = Math.min(window.innerHeight + cursor.clientHeight, window.innerHeight * yNorm);
+    const px = Math.min(
+      window.innerWidth + cursor.clientWidth,
+      window.innerWidth * state.x
+    );
+    const py = Math.min(
+      window.innerHeight + cursor.clientHeight,
+      window.innerHeight * state.y
+    );
     cursor.style.display = 'block';
     cursor.style.left = `${px}px`;
     cursor.style.top = `${py}px`;
