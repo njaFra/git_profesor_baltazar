@@ -6,7 +6,7 @@ export default class DrawingScene extends BaseScene {
     this.container = document.getElementById('gameContainer');
 
     this.handData = new Map();
-    this.baseLineWidth = 40;
+    this.baseLineWidth = 80;
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -16,6 +16,8 @@ export default class DrawingScene extends BaseScene {
   async init() {
     await this.assets.loadImage('backButton','/pictures/backButton.png');
     await this.assets.loadImage('cursor','/pictures/drawingGame/brush.png');
+
+    this.styleEl = this.loadStyle('/css/Drawing.css');
 
     this.sceneEl = document.createElement('div');
     this.sceneEl.classList.add('container', 'drawing-container');
@@ -79,6 +81,7 @@ export default class DrawingScene extends BaseScene {
     this.input.off('move', this.handleMove);
     this.input.off('click', this.handleClick);
     this.input.off('frameCount', this.updateFrameCount);
+    this.removeStyle(this.styleEl);
     window.removeEventListener('resize', this.resize.bind(this));
     await super.destroy();
     this.sceneEl.remove();
@@ -150,8 +153,9 @@ export default class DrawingScene extends BaseScene {
 
   handleMove({ x, y, i, gesture, thickness }) {
     this.updateCursor(x, y, i);
-    const xPx = x * this.canvasElement.clientWidth;
-    const yPx = y * this.canvasElement.clientHeight;
+    const smooth = this.handSmoothed.get(i) || { x, y };
+    const xPx = smooth.x * window.innerWidth - this.canvasElement.offsetLeft;
+    const yPx = smooth.y * window.innerHeight - this.canvasElement.offsetTop;
 
     let data = this.handData.get(i);
     if (!data) {

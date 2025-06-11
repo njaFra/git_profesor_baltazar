@@ -41,7 +41,7 @@ html {
 .drawing-container .mouse_pointer {
     pointer-events: none;
     position: absolute;
-    height: 8vh;
+    height: 4vh;
     width: auto;
     z-index: 999;
     border-radius: 100% 0% 100% 0%;

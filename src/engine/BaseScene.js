@@ -45,6 +45,18 @@ export default class BaseScene {
     this.handLastSeen.delete(id);
   }
 
+  loadStyle(href) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+    return link;
+  }
+
+  removeStyle(link) {
+    if (link && link.parentNode) link.parentNode.removeChild(link);
+  }
+
   updateCursor(xNorm, yNorm, id) {
     if (!this.handCursors.has(id)) {
       this.createCursor(id);
