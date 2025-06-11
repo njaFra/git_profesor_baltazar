@@ -4,6 +4,8 @@ export default class DrawingScene extends BaseScene {
   constructor(params) {
     super(params);
     this.container = document.getElementById('gameContainer');
+    this.useColorIndicator = true;
+    this.cursorOffset = {x:0, y: -cur}
 
     this.handData = new Map();
     this.baseLineWidth = 80;
@@ -99,11 +101,8 @@ export default class DrawingScene extends BaseScene {
   findHandFromCursor(x, y) {
     let closest = null;
     let closestDist = Infinity;
-    this.handCursors.forEach((cursor, id) => {
-      const rect = cursor.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dist = Math.hypot(cx - x, cy - y);
+    this.handData.forEach((data, id) => {
+      const dist = Math.hypot((data.currX || 0) - x, (data.currY || 0) - y);
       if (dist < closestDist) {
         closestDist = dist;
         closest = id;

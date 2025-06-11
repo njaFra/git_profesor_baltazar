@@ -7,6 +7,8 @@ export default class BaseScene {
     this.handSmoothed = new Map(); 
     this.handLastSeen = new Map();
     this.cursorContainer = document.body;
+    this.useColorIndicator = false;
+    this.cursorOffset = () => ({ x: 0, y: 0 });
 
     this.MAX_MISSING_FRAMES = 5;
     this.SMOOTHING = 0.5;
@@ -23,7 +25,7 @@ export default class BaseScene {
   }
 
   createCursor(id) {
-    const cursor = document.createElement('img');
+    /*const cursor = document.createElement('img');
     cursor.classList.add('mouse_pointer');
     cursor.id = `cursor_${id}`;
     cursor.src = this.assets.images.get('cursor').src;
@@ -34,7 +36,33 @@ export default class BaseScene {
     });
     document.body.appendChild(cursor);
     this.handCursors.set(id, cursor);
-    return cursor;
+    return cursor;*/
+
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('cursor-wrapper');
+    const cursor = document.createElement('img');
+    cursor.classList.add('mouse_pointer');
+    cursor.id = `cursor_${id}`;
+    cursor.src = this.assets.images.get('cursor').src;
+    Object.assign(cursor.style, {
+      pointerEvents: 'none',
+      backgroundSize: 'cover',
+    });
+    wrapper.appendChild(cursor);
+    if (this.useColorIndicator) {
+      const indicator = document.createElement('div');
+      indicator.classList.add('cursor-indicator');
+      wrapper.appendChild(indicator);
+      wrapper.indicator = indicator;
+    }
+    Object.assign(wrapper.style, {
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'none',
+    });
+    this.cursorContainer.appendChild(wrapper);
+    this.handCursors.set(id, wrapper);
+    return wrapper;
   }
 
   removeCursor(id) {
@@ -78,9 +106,10 @@ export default class BaseScene {
       window.innerHeight + cursor.clientHeight,
       window.innerHeight * state.y
     );
+    const offset = this.cursorOffset(cursor);
     cursor.style.display = 'block';
-    cursor.style.left = `${px}px`;
-    cursor.style.top = `${py}px`;
+    cursor.style.left = `${px + offset.x}px`;
+    cursor.style.top = `${py + offset.y}px`;
 
     this.handLastSeen.set(id, this.frameCount);
   }

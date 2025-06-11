@@ -68,3 +68,10 @@ body, html {
     border-radius: 5px;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
 }
+
+.cursor-wrapper {
+    position: absolute;
+    pointer-events: none;
+    display: none;
+    z-index: 999;
+}
