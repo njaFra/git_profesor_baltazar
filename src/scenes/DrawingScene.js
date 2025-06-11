@@ -43,29 +43,29 @@ export default class DrawingScene extends BaseScene {
     `;
     this.container.appendChild(this.sceneEl);
 
+    this.cursorContainer = this.sceneEl;
+
     this.canvasElement = this.sceneEl.querySelector('.output_canvas');
     this.canvasCtx = this.canvasElement.getContext('2d');
     this.btnBack = this.sceneEl.querySelector('#btnBack');
     this.btnClearBackground = this.sceneEl.querySelector('#btnClearBackground');
     this.btnRGBPicker = this.sceneEl.querySelector('#btnRGBPicker');
 
-    this.colorButtons = {
-      green: this.sceneEl.querySelector('#btnGreen'),
-      blue: this.sceneEl.querySelector('#btnBlue'),
-      red: this.sceneEl.querySelector('#btnRed'),
-      yellow: this.sceneEl.querySelector('#btnYellow'),
-      white: this.sceneEl.querySelector('#btnWhite'),
-      black: this.sceneEl.querySelector('#btnBlack')
-    };
+    this.colorButtons = {};
+    ['Green','Blue','Red','Yellow','White','Black'].forEach(name => {
+      const id = `btn${name}`;
+      const el = this.sceneEl.querySelector(`#${id}`);
+      const color = el.style.background;
+      this.colorButtons[id] = { el, color, bg: color };
+    });
 
     this.resize();
     window.addEventListener('resize', this.resize.bind(this));
 
     this.btnBack.addEventListener('click', ()=>this.manager.switch('StartMenu'));
     this.btnClearBackground.addEventListener('click', ()=>this.canvasCtx.clearRect(0,0,this.canvasElement.width,this.canvasElement.height));
-    Object.entries(this.colorButtons).forEach(([name, btn])=>{
-      btn.style.background = name;
-      btn.addEventListener('click', ()=>{ this.color = name; this.canvasCtx.strokeStyle = this.color; });
+    Object.values(this.colorButtons).forEach(({ el, color }) => {
+      el.style.background = color;
     });
 
     this.input.on('move', this.handleMove);
@@ -118,7 +118,12 @@ export default class DrawingScene extends BaseScene {
     data.color = color;
     this.handData.set(id, data);
     const cursor = this.handCursors.get(id);
-    if (cursor) cursor.style.backgroundColor = bg;
+    if (cursor) {
+      cursor.style.backgroundColor = bg;
+      if (cursor.indicator) {
+        cursor.indicator.style.backgroundColor = color;
+      }
+    }
   }
 
   calculateRGBColor(ratio) {

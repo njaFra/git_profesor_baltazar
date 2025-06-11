@@ -6,6 +6,7 @@ export default class BaseScene {
     this.handCursors = new Map();
     this.handSmoothed = new Map(); 
     this.handLastSeen = new Map();
+    this.cursorContainer = document.body;
 
     this.MAX_MISSING_FRAMES = 5;
     this.SMOOTHING = 0.5;
@@ -23,13 +24,13 @@ export default class BaseScene {
 
   createCursor(id) {
     const cursor = document.createElement('img');
-    cursor.classList.add('cursor');
+    cursor.classList.add('mouse_pointer');
     cursor.id = `cursor_${id}`;
     cursor.src = this.assets.images.get('cursor').src;
     Object.assign(cursor.style, {
       position: 'absolute',
       pointerEvents: 'none',
-      display: 'none'
+      backgroundSize: 'cover',
     });
     document.body.appendChild(cursor);
     this.handCursors.set(id, cursor);

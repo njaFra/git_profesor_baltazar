@@ -29,6 +29,7 @@ export default class StartMenuScene extends BaseScene {
       </div>
     `;
     this.container.appendChild(this.sceneEl);
+    this.cursorContainer = this.sceneEl;
 
     this.sceneEl.querySelector('#btnDrawing').addEventListener('click', () => this.manager.switch('Drawing'));
     this.sceneEl.querySelector('#btnStarCatching').addEventListener('click', () => this.manager.switch('StarCatching'));

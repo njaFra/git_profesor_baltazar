@@ -192,3 +192,21 @@ html {
     left: 77%;
     position: relative ;
 }
+
+.cursor-wrapper {
+    position: absolute;
+    pointer-events: none;
+    display: none;
+}
+
+.cursor-indicator {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    left: 0;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    pointer-events: none;
+}

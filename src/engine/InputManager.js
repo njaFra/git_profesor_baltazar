@@ -66,10 +66,10 @@ export default class InputManager {
 
               this.emit('move', { x, y, i, gesture, thickness });
 
-              if (gesture === "Pointing_Up" && this.lastGesture[i] !== "Pointing_Up") {
+              if (gesture === "Pointing_Up" && this.lastGestures[i] !== "Pointing_Up") {
                 this.emit('click', { x: x, y: y });
               }
-              this.lastGesture = gesture;
+              this.lastGestures[i] = gesture;
           }
       }
     }
