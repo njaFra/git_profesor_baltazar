@@ -11,8 +11,8 @@ export default class StartMenuScene extends BaseScene {
   }
 
   async init() {    
-    await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.png');
-    await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.png');
+    await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.webp');
+    await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.webp');
 
     this.sceneEl = document.createElement('div');
     this.sceneEl.classList.add('container');

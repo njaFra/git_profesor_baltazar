@@ -16,8 +16,8 @@ export default class DrawingScene extends BaseScene {
   }
 
   async init() {
-    await this.assets.loadImage('backButton','/pictures/backButton.png');
-    await this.assets.loadImage('cursor','/pictures/drawingGame/brush.png');
+    await this.assets.loadImage('backButton','/pictures/backButton.webp');
+    await this.assets.loadImage('cursor','/pictures/drawingGame/brush.webp');
 
     this.styleEl = this.loadStyle('/css/Drawing.css');
 
