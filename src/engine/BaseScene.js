@@ -6,6 +6,9 @@ export default class BaseScene {
     this.handCursors = new Map();
     this.handSmoothed = new Map(); 
     this.handLastSeen = new Map();
+    this.cursorContainer = document.body;
+    this.useColorIndicator = false;
+    this.cursorOffset = () => ({ x: 0, y: 0 });
 
     this.MAX_MISSING_FRAMES = 5;
     this.SMOOTHING = 0.5;
@@ -22,18 +25,53 @@ export default class BaseScene {
   }
 
   createCursor(id) {
-    const cursor = document.createElement('img');
-    cursor.classList.add('cursor');
+    /*const cursor = document.createElement('img');
+    cursor.classList.add('mouse_pointer');
     cursor.id = `cursor_${id}`;
     cursor.src = this.assets.images.get('cursor').src;
     Object.assign(cursor.style, {
       position: 'absolute',
       pointerEvents: 'none',
-      display: 'none'
+      backgroundSize: 'cover',
     });
     document.body.appendChild(cursor);
     this.handCursors.set(id, cursor);
-    return cursor;
+    return cursor;*/
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('cursor-wrapper');
+    const img = document.createElement('img');
+    img.classList.add('mouse_pointer');
+    img.id = `cursor_${id}`;
+    img.src = this.assets.images.get('cursor').src;
+    Object.assign(img.style, {
+      pointerEvents: 'none',
+      backgroundSize: 'cover',
+    });
+    wrapper.appendChild(img);
+    wrapper.img = img;
+        const syncSize = () => {
+      wrapper.style.width = `${img.clientWidth}px`;
+      wrapper.style.height = `${img.clientHeight}px`;
+    };
+    if (img.complete) {
+      syncSize();
+    } else {
+      img.onload = syncSize;
+    }
+    if (this.useColorIndicator) {
+      const indicator = document.createElement('div');
+      indicator.classList.add('cursor-indicator');
+      wrapper.appendChild(indicator);
+      wrapper.indicator = indicator;
+    }
+    Object.assign(wrapper.style, {
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'none',
+    });
+    this.cursorContainer.appendChild(wrapper);
+    this.handCursors.set(id, wrapper);
+    return wrapper;
   }
 
   removeCursor(id) {
@@ -43,6 +81,18 @@ export default class BaseScene {
     }
     this.handSmoothed.delete(id);
     this.handLastSeen.delete(id);
+  }
+
+  loadStyle(href) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+    return link;
+  }
+
+  removeStyle(link) {
+    if (link && link.parentNode) link.parentNode.removeChild(link);
   }
 
   updateCursor(xNorm, yNorm, id) {
@@ -65,9 +115,12 @@ export default class BaseScene {
       window.innerHeight + cursor.clientHeight,
       window.innerHeight * state.y
     );
+
+    const img = cursor.img || cursor;
+    const offset = this.cursorOffset(img);
     cursor.style.display = 'block';
-    cursor.style.left = `${px}px`;
-    cursor.style.top = `${py}px`;
+    cursor.style.left = `${px + offset.x}px`;
+    cursor.style.top = `${py + offset.y}px`;
 
     this.handLastSeen.set(id, this.frameCount);
   }

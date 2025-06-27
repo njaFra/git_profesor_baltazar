@@ -17,7 +17,7 @@ body, html {
     width: 100%;
     height: 100%;
     display: block;
-    background-image: url("/pictures/startMenu/startMenuBackground.png");
+    background-image: url("/pictures/startMenu/startMenuBackground.webp");
     background-position: 50%;
     background-size: auto 100%;
     justify-content: center;
@@ -46,12 +46,29 @@ body, html {
 .secondLayer {
     height: 55%;
 }
-.mouse_pointer {
+.cursor {
     pointer-events: none;
     position: absolute;
     width: 10%;
     height: auto;
     z-index: 999;
+}␊
+.cursor-wrapper {
+    position: absolute;
+    pointer-events: none;
+    width: auto;
+    height: auto;
+}
+.cursor-indicator {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    left: 0;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    pointer-events: none;
 }
 .btn {
     border: 0cm;
@@ -67,4 +84,11 @@ body, html {
     font-size: 6em;
     border-radius: 5px;
     box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.cursor-wrapper {
+    position: absolute;
+    pointer-events: none;
+    display: none;
+    z-index: 999;
 }

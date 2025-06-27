@@ -11,8 +11,8 @@ export default class StartMenuScene extends BaseScene {
   }
 
   async init() {    
-    await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.png');
-    await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.png');
+    await this.assets.loadImage('profBaltazar','/pictures/startMenu/profBaltazarMainScreen.webp');
+    await this.assets.loadImage('cursor','/pictures/starCatching/starCatchingCursor.webp');
 
     this.sceneEl = document.createElement('div');
     this.sceneEl.classList.add('container');
@@ -29,6 +29,7 @@ export default class StartMenuScene extends BaseScene {
       </div>
     `;
     this.container.appendChild(this.sceneEl);
+    this.cursorContainer = this.sceneEl;
 
     this.sceneEl.querySelector('#btnDrawing').addEventListener('click', () => this.manager.switch('Drawing'));
     this.sceneEl.querySelector('#btnStarCatching').addEventListener('click', () => this.manager.switch('StarCatching'));
