@@ -24,55 +24,42 @@ export default class BaseScene {
     });
   }
 
-  createCursor(id) {
-    /*const cursor = document.createElement('img');
-    cursor.classList.add('mouse_pointer');
-    cursor.id = `cursor_${id}`;
-    cursor.src = this.assets.images.get('cursor').src;
-    Object.assign(cursor.style, {
-      position: 'absolute',
-      pointerEvents: 'none',
-      backgroundSize: 'cover',
-    });
-    document.body.appendChild(cursor);
-    this.handCursors.set(id, cursor);
-    return cursor;*/
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('cursor-wrapper');
-    const img = document.createElement('img');
-    img.classList.add('mouse_pointer');
-    img.id = `cursor_${id}`;
-    img.src = this.assets.images.get('cursor').src;
-    Object.assign(img.style, {
-      pointerEvents: 'none',
-      backgroundSize: 'cover',
-    });
-    wrapper.appendChild(img);
-    wrapper.img = img;
-        const syncSize = () => {
-      wrapper.style.width = `${img.clientWidth}px`;
-      wrapper.style.height = `${img.clientHeight}px`;
-    };
-    if (img.complete) {
-      syncSize();
-    } else {
-      img.onload = syncSize;
-    }
-    if (this.useColorIndicator) {
-      const indicator = document.createElement('div');
-      indicator.classList.add('cursor-indicator');
-      wrapper.appendChild(indicator);
-      wrapper.indicator = indicator;
-    }
-    Object.assign(wrapper.style, {
-      position: 'absolute',
-      pointerEvents: 'none',
-      display: 'none',
-    });
-    this.cursorContainer.appendChild(wrapper);
-    this.handCursors.set(id, wrapper);
-    return wrapper;
+createCursor(id) {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('cursor-wrapper');
+
+  const img = document.createElement('img');
+  img.classList.add('mouse_pointer');
+  img.id = `cursor_${id}`;
+  img.src = this.assets.images.get('cursor').src;
+
+  Object.assign(img.style, {
+    pointerEvents: 'none',
+    backgroundSize: 'cover',
+    display: 'block'
+  });
+
+  wrapper.appendChild(img);
+  wrapper.img = img;
+
+  if (this.useColorIndicator) {
+    const indicator = document.createElement('div');
+    indicator.classList.add('cursor-indicator');
+    wrapper.appendChild(indicator);
+    wrapper.indicator = indicator;
   }
+
+  Object.assign(wrapper.style, {
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'block'
+  });
+
+  this.cursorContainer.appendChild(wrapper);
+  this.handCursors.set(id, wrapper);
+  return wrapper;
+}
+
 
   removeCursor(id) {
     if (this.handCursors.has(id)) {

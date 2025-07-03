@@ -52,22 +52,9 @@ html {
     width: 100%;
 }
 
-.drawing-container .firstLayer {
-    height: 6.5%;
-}
-
-.drawing-container .secondLayer {
-    height: 8.64%;
-}
-
-.drawing-container .thirdLayer {
-    height: 69%;
-}
-
 .drawing-container .fourthLayer {
-    display: grid;
     width: 96%;
-    height: 5%;
+    display: grid;
     padding-left: 2%;
     padding-right: 2%;
     padding-top: 1%;
@@ -191,4 +178,89 @@ html {
     top: -100%;
     left: 77%;
     position: relative ;
+}
+
+/* === Responsive dizajn za različite razlučivosti === */
+
+/* MOBITELI */
+@media screen and (max-width: 512px) and (max-aspect-ratio: 3/4) {
+    .drawing-container {
+        background-position: 80%;
+        background-size: auto 100%;
+    }
+
+    .drawing-container #btnClearBackground {
+        font-size: 0.6em;
+    }
+
+    .drawing-container .firstLayer {
+        height: 6.5%;
+    }
+
+    .drawing-container .secondLayer {
+        height: 8.64%;
+    }
+
+    .drawing-container .thirdLayer {
+        height: 69%;
+    }
+
+    .drawing-container .fourthLayer {
+        height: 5%;
+        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
+        gap: 1%;
+    }
+
+    .drawing-container .fifthLayer {
+        height: 8%;
+    }
+
+    .drawing-container .mouse_pointer {
+        height: 6vh;
+    }
+}
+
+/* TABLETI I MANJI DESKTOPI: širina između 601px i 1024px */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .drawing-container .output_canvas {
+        height: 80%;
+    }
+
+    .drawing-container .textStyle {
+        font-size: 3em;
+    }
+
+    .drawing-container #btnClearBackground {
+        font-size: 3em;
+    }
+}
+
+/* TV vertikalan */
+@media screen and (min-width: 1920px) and (max-aspect-ratio: 3/4) {
+    .drawing-container {
+        background-position: 80%;
+        background-size: auto 100%;
+    }
+
+    .drawing-container .firstLayer {
+        height: 6.5%;
+    }
+
+    .drawing-container .secondLayer {
+        height: 8.64%;
+    }
+
+    .drawing-container .thirdLayer {
+        height: 69%;
+    }
+
+    .drawing-container .textStyle {
+        font-size: 3.5em;
+    }
+
+    .drawing-container .fourthLayer {
+        height: 5%;
+        grid-template-columns: 8% 8% 8% 8% 8% 8% 1fr 45%;
+        gap: 1%;
+    }
 }

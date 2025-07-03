@@ -8,7 +8,13 @@ export default class DrawingScene extends BaseScene {
     this.cursorOffset = img => ({ x: 10, y: -img.clientHeight - 10 });
 
     this.handData = new Map();
-    this.baseLineWidth = 80;
+    if(window.innerWidth < '512px') {
+      this.baseLineWidth = window.innerWidth * 0.02;
+    } else if (window.innerWidth > '1920px') {
+      this.baseLineWidth = window.innerWidth * 0.03;
+    } else {
+      this.baseLineWidth = window.innerWidth * 0.025;
+    }
 
     this.handleMove = this.handleMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
