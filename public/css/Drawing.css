@@ -40,9 +40,6 @@ html {
 
 .drawing-container .mouse_pointer {
     pointer-events: none;
-    position: absolute;
-    height: 8vh;
-    width: auto;
     z-index: 999;
     border-radius: 100% 0% 100% 0%;
 }
@@ -189,6 +186,12 @@ html {
         background-size: auto 100%;
     }
 
+    
+    .drawing-container .mouse_pointer {
+        height: 8vh;
+        width: auto;
+    }
+
     .drawing-container #btnClearBackground {
         font-size: 0.6em;
     }
@@ -241,6 +244,12 @@ html {
         background-position: 80%;
         background-size: auto 100%;
     }
+
+    .drawing-container .mouse_pointer {
+        height: 8vh;
+        width: auto;
+    }
+    
 
     .drawing-container .firstLayer {
         height: 6.5%;

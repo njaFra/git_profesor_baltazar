@@ -96,7 +96,7 @@ body, html {
         height: 60%;
     }
     .cursor-wrapper {
-        width: 5%;
+        width: auto;
         height: auto;
     }
     .mouse_pointer {
@@ -120,7 +120,7 @@ body, html {
         font-size: 6em;
     }
     .cursor-wrapper {
-        width: 5%;
+        width: auto;
         height: auto;
     }
     .mouse_pointer {

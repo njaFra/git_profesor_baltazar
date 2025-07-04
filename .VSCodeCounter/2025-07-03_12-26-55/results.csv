@@ -1,0 +1,24 @@
+"filename", "language", "JSON", "JavaScript", "XML", "PostCSS", "Markdown", "HTML", "WebAssembly Text Format", "comment", "blank", "total"
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\README.md", "Markdown", 0, 0, 0, 0, 10, 0, 0, 0, 9, 19
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\package-lock.json", "JSON", 1024, 0, 0, 0, 0, 0, 0, 0, 1, 1025
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\package.json", "JSON", 18, 0, 0, 0, 0, 0, 0, 0, 1, 19
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\FontFamily\fontFamily.css", "PostCSS", 0, 0, 0, 16, 0, 0, 0, 2, 0, 18
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\css\Drawing.css", "PostCSS", 0, 0, 0, 218, 0, 0, 0, 4, 45, 267
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\vite.svg", "XML", 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\wasm\vision_wasm_internal.js", "JavaScript", 0, 15, 0, 0, 0, 0, 0, 1, 5, 21
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\wasm\vision_wasm_internal.wasm", "WebAssembly Text Format", 0, 0, 0, 0, 0, 0, 161599, 0, 4901, 166500
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\wasm\vision_wasm_nosimd_internal.js", "JavaScript", 0, 15, 0, 0, 0, 0, 0, 1, 5, 21
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\public\wasm\vision_wasm_nosimd_internal.wasm", "WebAssembly Text Format", 0, 0, 0, 0, 0, 0, 156188, 0, 3516, 159704
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\AssetManager.js", "JavaScript", 0, 29, 0, 0, 0, 0, 0, 0, 6, 35
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\BaseScene.js", "JavaScript", 0, 103, 0, 0, 0, 0, 0, 0, 23, 126
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\Engine.js", "JavaScript", 0, 25, 0, 0, 0, 0, 0, 0, 3, 28
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\InputManager.js", "JavaScript", 0, 108, 0, 0, 0, 0, 0, 0, 22, 130
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\SceneManager.js", "JavaScript", 0, 27, 0, 0, 0, 0, 0, 0, 5, 32
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\engine\Utils.js", "JavaScript", 0, 14, 0, 0, 0, 0, 0, 0, 3, 17
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\index.html", "HTML", 0, 0, 0, 0, 0, 14, 0, 0, 2, 16
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\main.js", "JavaScript", 0, 19, 0, 0, 0, 0, 0, 0, 7, 26
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\scenes\DrawingScene.js", "JavaScript", 0, 212, 0, 0, 0, 0, 0, 0, 27, 239
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\scenes\StartMenuScene.js", "JavaScript", 0, 57, 0, 0, 0, 0, 0, 0, 13, 70
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\src\styles.css", "PostCSS", 0, 0, 0, 124, 0, 0, 0, 3, 4, 131
+"e:\igrice.baltazargrad.com\Source code\git_profesor_baltazar\vite.config.js", "JavaScript", 0, 21, 0, 0, 0, 0, 0, 0, 1, 22
+"Total", "-", 1042, 645, 1, 358, 10, 14, 317787, 11, 8599, 328467
