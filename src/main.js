@@ -11,6 +11,7 @@ import MemoryScene from "@scenes/MemoryScene.js";
 import KSPScene from "@scenes/KSPScene.js";
 import LetimirScene from "@scenes/LetimirScene";
 import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
+import EnigmaScene from "@scenes/EnigmaScene.js";
 
 (async () => {
   const videoEl = document.querySelector("#inputVideo");
@@ -24,6 +25,7 @@ import SpojiCudoScene from "@scenes/SpojiCudoScene.js";
   scenes.register("Memory", MemoryScene);
   scenes.register("KSP", KSPScene);
   scenes.register("TicTacToe", TicTacToeScene);
+  scenes.register("Enigma", EnigmaScene);
 
   scenes.register("NinjaFruit", NinjaFruitScene);
   //scenes.register("Letimir", LetimirScene);

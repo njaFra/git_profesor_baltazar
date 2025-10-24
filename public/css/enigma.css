@@ -1,0 +1,676 @@
+/* enigma.css — adapted to your project's layer-style (vw/vh & % heights) */
+
+/* basics & font import (if you use project font, keep same import pattern) */
+/* @import url('/FontFamily/fontFamily.css'); */
+
+:root{
+  --bg-img: none;
+  --bg-color: #071028;
+  --card: rgba(11,18,32,0.95);
+  --accent: #facc15;
+  --muted: #b6c1cf;
+}
+
+/* Container: match other games (full viewport) */
+.container.enigma-container,
+.container.enigma-machine-container{
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100vw;
+  max-width: calc(100vh * (9/16));
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-color: var(--bg-color);
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+/* Keep .layer definitions consistent with project */
+.layer { display: block; width: 100%; box-sizing: border-box; }
+
+/* Layer heights tuned for Enigma:
+   firstLayer: small (back button)
+   secondLayer: large (output & rotors)
+   thirdLayer: keyboard (big but smaller than output)
+   fourthLayer: plugboard / extras */
+.firstLayer  { height: 8%; }   /* back button area */
+.secondLayer { height: 40%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* output + rotors */
+.thirdLayer  { height: 32%; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }  /* keyboard */
+.fourthLayer { height: 30%; display:flex; flex-direction:column; align-items:center; justify-content:center; } /* plugboard */
+
+/* Back button: big tappable area aligned top-left like TicTacToe */
+.firstLayer .btn {
+  position: absolute;
+  top: 0vh;
+  left: 1vw;
+  width: calc(10vh * (9/16));   /* will be scaled by viewport */
+  height: calc(10vh * (9/16));
+  border: 0;
+  background: transparent;
+  cursor: none; /* keep same as your project if using hidden cursor */
+}
+.firstLayer .btn img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.firstLayer .baltazarTitle img { 
+  max-width: 100%; 
+  max-height: 7vh; 
+  object-fit: contain; 
+  align-items: center;
+  display:block;
+  margin:auto;
+}
+
+/* Title (if shown) */
+.enigma-title {
+  text-align: center;
+  font-size: calc(6.5vh * (9/16));
+  margin-top: 2vh;
+  color: white;
+  text-shadow: 0 0 0.2em #000;
+}
+
+h3{
+  /* TODO correct vh and vw */
+  font-size: 3vw;
+}
+
+#ringInput{
+  /* TODO correct vh and vw */
+  width: 3vw;
+  height: 3vw;
+}
+
+#closePicker{
+  /* TODO correct vh and vw */
+  width: 3vw;
+  height: 3vw;
+}
+/* ========== Layout tweaks: output, rotors, keyboard, plugboard ========== */
+
+/* Shorter output area */
+.output {
+  width: 86%;
+  height: 8vh;              /* shortened */
+  background: var(--card);
+  border-radius: 1.6vh;
+  box-sizing: border-box;
+  font-size: 2vh;
+  text-align: center;
+  line-height: 1.1;
+  color: #f1f5f9;
+  overflow-wrap: break-word;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* Clear button below output */
+.clear-btn {
+  /* TODO correct vh and vw */
+  margin-top: 1.2vh;
+  background: rgba(250,204,21,0.7);
+  border-radius: 1vh;
+  border: none;
+  padding: 0.8vh 1.2vw;
+  font-size: calc(4vh * (9/16));
+  font-weight: 700;
+  color: rgba(00, 135, 130);
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* Make rotors taller (visually larger) */
+.controls {
+  /* TODO correct vh and vw */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+  box-sizing: border-box;
+  gap: 2vh;
+}
+
+.rotor-row {
+  /* TODO correct vh and vw */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Bigger rotor cards */
+.rotor {
+  /* TODO correct vh and vw */
+  width: 19%;               /* wider */
+  max-width: 420px;
+  height: 90%;              /* taller rotor height */
+  padding: 1vh;
+  background: linear-gradient(180deg,#081226,#0a0f24);
+  border-radius: 1.6vh;
+  text-align: center;
+  box-shadow: inset 0 -8px 16px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rotor .letter {
+  /* TODO correct vh and vw */
+  font-size: calc(8vh * (9/16));           /* much larger letter */
+  font-weight: 900;
+  color: #fff;
+}
+
+@media(max-aspect-ratio: 9/17){
+  .rotor .letter{
+    font-size: 200%;
+  }
+}
+
+/* ------- Grundstellung (pos) controls on rotor letter ------- */
+.letter-controls {
+  /* TODO correct vh and vw */
+  display: flex;
+  flex-direction: row;       /* up arrow above, letter, down arrow below */
+  align-items: center;
+  justify-content: center;
+  gap: 0.6vh;
+  width: 100%;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+/* small circular pos buttons */
+.pos-btn {
+  /* TODO correct vh and vw */
+  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  color: rgb(0, 60, 50);
+  font-size: 2vh;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+  --btn-size-w: 6vw;         /* base width for button square */
+  --btn-size-h: 6vh;       /* base height to match key height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-size-w);
+  max-width: 105px;
+  height: var(--btn-size-h);
+  max-height: 166px;
+  border-radius: 1.2vh;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 800;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  outline: none;
+  position: relative;
+  z-index: 2;
+}
+
+/* smaller visual weight than rotor-arrow */
+.pos-btn:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(0,0,0,0.45); }
+.pos-btn:focus { outline: none; box-shadow: 0 8px 18px rgba(0,0,0,0.45); }
+
+.rotor .rotor-top-menu {
+  /* TODO correct vh and vw */
+  background: linear-gradient(
+    180deg,
+    rgba(250,204,21,0.95),
+    rgba(250,204,21,0.85)
+  );
+  border-radius: 1.2vw;
+  border: none;
+  padding: 0.8vh 1.2vw;
+  font-size: 2.5vw;
+  font-weight: 700;
+  color: rgb(0,135,130);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.rotor .rotor-ring-menu{
+  /* TODO correct vh and vw */
+  background: rgba(250,204,21);
+  background: linear-gradient(
+    180deg,
+    rgba(250,204,21,0.95),
+    rgba(250,204,21,0.85)
+  );
+  border-radius: 1.2vh;
+  border: none;
+  padding: 0.8vh 0.8vh;
+  font-size: 2.5vw;
+  font-weight: 700;
+  color: rgb(0,135,130);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.rotor-top-menu,
+.rotor-ring-menu {
+  /* TODO correct vh and vw */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2vw;                /* spacing between parts */
+  box-sizing: border-box;
+}
+
+/* Top menu: left-arrow  [ rotor type ]  right-arrow */
+.rotor-top-menu {
+  /* TODO correct vh and vw */
+  margin-bottom: 0.6vh;
+}
+
+/* Ring menu: minus  [ Ring X ]  plus */
+.rotor-ring-menu {
+  /* TODO correct vh and vw */
+  margin-top: 0.6vh;
+}
+
+/* Shared button styles for arrows and ring +/- */
+.rotor-arrow,
+.ring-btn {
+  /* TODO correct vh and vw */
+  --btn-size-w: 40%;         /* base width for button square */
+  --btn-size-h: 100%;       /* base height to match key height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-size-w);
+  max-width: 105px;
+  height: var(--btn-size-h);
+  max-height: 166px;
+  border-radius: 1.2vh;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 800;
+  font-size: 2vw;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color: var(--muted);
+  outline: none;
+  position: relative;
+  z-index: 2;
+}
+
+/* Slightly different visual for arrows to stand out */
+.rotor-arrow {
+  /* TODO correct vh and vw */
+  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  color: rgb(0, 60, 50);
+  font-size: 2vh;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+}
+
+/* Ring +/- buttons: subtle accent */
+.ring-btn {
+  /* TODO correct vh and vw */
+  background: linear-gradient(180deg, rgba(250,204,21,0.95), rgba(250,204,21,0.9)); /* gold-ish */
+  color: rgb(0, 60, 50);
+  font-size: 2vh;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+}
+
+/* center display blocks for rotor type and ring value */
+.rotor-type-display,
+.ring-display {
+  /* TODO correct vh and vw */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26%;
+  padding: 0.4vh 0.1vw;
+  box-sizing: border-box;
+  font-size: calc( 4.6vh * (9/16));
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  user-select: none;
+}
+
+/* ring display slightly smaller / muted label */
+
+/* Selected / active visual states */
+.rotor-arrow:active,
+.ring-btn:active {
+  transform: translateY(2px) scale(0.995);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.45);
+}
+
+/* hover/focus for desktop (does not affect touch) */
+.rotor-arrow:hover,
+.ring-btn:hover,
+.rotor-arrow:focus,
+.ring-btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.55);
+}
+
+/* if you want a clear selected/pressed look when cycling rotor types */
+.rotor .rotor-type-display.updated {
+  /* TODO correct vh and vw */
+  background: rgba(250,204,21,0.12);
+  border-radius: 1.0vw;
+  color: #fff;
+}
+
+/* ensure the top/bottom menus don't let the rotor background bleed through */
+.rotor-top-menu .rotor-arrow,
+.rotor-top-menu .rotor-type-display,
+.rotor-ring-menu .ring-btn,
+.rotor-ring-menu .ring-display {
+  background-clip: padding-box;
+}
+
+/* Accessibility: visible focus ring for keyboard users */
+.rotor-arrow:focus-visible,
+.ring-btn:focus-visible {
+  box-shadow: 0 0 0 4px rgba(250,204,21,0.18), 0 10px 20px rgba(0,0,0,0.45);
+  outline: none;
+}
+
+/* Prevent pointer events leaking to parent rotor card when touching small gaps */
+.rotor-top-menu,
+.rotor-ring-menu {
+  touch-action: manipulation;
+}
+
+/* Optional: tighten spacing when rotor has many characters (if your font causes wrap) */
+.rotor-type-display,
+.ring-display {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Keyboard: three centered rows; each row centers its keys */
+.keyboard {
+  /* TODO correct vh and vw */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+  align-items: center;       /* center the rows */
+  justify-content: flex-start;
+  padding-top: 1vh;
+}
+
+/* keyboard row container */
+.keyboard-row {
+  /* TODO correct vh and vw */
+  display: flex;
+  gap: 1vh;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* larger square keys that scale with viewport */
+.key {
+  /* TODO correct vh and vw */
+  background: linear-gradient(180deg,#0b1726,#071022);
+  border-radius: calc(2vh *(9/16));
+  width: calc( (82vw) / 10 ); /* base size, will be constrained by min/max */
+  min-width: calc(3vh * (9/16));
+  max-width: 10%;
+  height: 6.4vh;            /* tall keys to fill vertical space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8vh * (9/16));          /* bigger letter size */
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+}
+
+
+@media(max-aspect-ratio: 9/17){
+  .key{
+    font-size: calc(6vh * (9/16));
+  }
+}
+
+/* Plugboard (updated to use colored pairs) */
+.plugboard {
+  /* TODO correct vh and vw */
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1vh;
+  padding: 2%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.01);
+}
+
+.plug {
+  /* TODO correct vh and vw */
+  background: rgba(255, 255, 255, 0.04);
+  width: calc(8vh * (9/16));
+  height: 6.4vh;
+  min-width: calc(3vh * (9/16));
+  max-width: 340px;
+  max-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8vh * (9/16));          /* bigger letter size */
+  font-weight: 900;
+  border-radius: calc(2vh *(9/16));
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 150ms ease;
+  user-select: none;
+  position: relative;
+}
+
+@media(max-aspect-ratio: 9/17){
+  .plug{
+    font-size: calc(6vh * (9/16));
+    width: calc(6vh * (9/16));
+  }
+} 
+
+/* Paired plugs get a colored background via inline style set from JS,
+   but keep a common paired class to adjust text color, contrast, and border. */
+.plug.paired {
+  /* TODO correct vh and vw */
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 -6px 12px rgba(0,0,0,0.15);
+}
+
+.plug:active { transform: translateY(2px) scale(0.995); }
+.plug:focus { outline: none; box-shadow: 0 10px 22px rgba(0,0,0,0.55); }
+
+/* Modal styles (rotor picker / reflector editor) */
+.modal-back {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 9999;
+}
+
+.modal {
+  /* TODO correct vh and vw */
+  width: 92vw;
+  max-width: 1200px;
+  background: var(--card);
+  border-radius: 1.6vw;
+  padding: 2.4vw;
+  box-sizing: border-box;
+}
+
+.rotor-list { display:flex; flex-wrap:wrap; gap:1.6vw; justify-content:center; }
+.rotor-item {
+  /* TODO correct vh and vw */
+  padding: 0.8vw 1.2vw;
+  font-size: 3.2vw;
+  border-radius: 0.8vw;
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+}
+
+/* small helper text */
+.small { font-size: calc(4vh * (9/16)); color: rgba(00, 135, 130); }
+
+
+@media(max-aspect-ratio: 9/17){
+  .small{
+    font-size: calc(3vh * (9/16));
+  }
+}
+
+/* === ENIGMA MENU SCREEN === */
+
+.enigma-menu-container {
+  /* TODO correct vh and vw */
+  background-image: url('/pictures/enigma/background_menu.webp'); /* optional */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.enigma-title {
+  text-align: center;
+  font-size: calc(16vh * (9/16)); /* big title like TicTacToe */
+  color: white;
+  text-shadow: 0 0 0.2em #000;
+  margin-bottom: 5vh;
+}
+
+/* Menu buttons */
+.enigma-menu-button {
+  background-color: #008782;
+  color: white;
+  font-size: calc(8vh * (9/16));       /* large text */
+  font-weight: bold;
+  width: 60%;
+  padding: 0.3em;
+  margin: 2vh 0;
+  border-radius: 0.3em;
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.enigma-menu-button:hover {
+  background-color: #00a896;
+}
+
+/* Back button in menu */
+.enigma-back-button {
+  /* TODO correct vh and vw */
+  position: absolute;
+  top: 4vh;
+  left: 4vw;
+  height: 12vw;   /* scaled for tall display */
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.enigma-back-button img {
+  height: 100%;
+  width: auto;
+}
+
+/* Instructions screen */
+.enigma-instructions-container {
+  /* TODO correct vh and vw */
+  background-image: url('/pictures/enigma/background_instructions.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  text-shadow: 0 0 0.1em #000;
+}
+
+.enigma-instructions-title {
+  /* TODO correct vh and vw */
+  font-size: 12vw;
+  margin-bottom: 2vh;
+}
+
+.enigma-instructions-text {
+  /* TODO correct vh and vw */
+  font-size: 6vw;
+  width: 80%;
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* Big select / dropdown styling */
+.enigma-select {
+  /* TODO correct vh and vw */
+  font-size: 4.8vw;
+  padding: 1.2vh 1.4vw;
+  border-radius: 1.2vw;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  border: none;
+  min-width: 36vw;
+  box-sizing: border-box;
+}
+
+/* Big reset button */
+.enigma-reset-btn {
+  /* TODO correct vh and vw */
+  font-size: 4.8vw;
+  padding: 1.2vh 2vw;
+  border-radius: 1.2vw;
+  background: #008782;
+  color: #fff;
+  border: none;
+  min-width: 32vw;
+  box-shadow: 3px 6px 12px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+
+.pair-btn{
+  font-size: 2vh;
+}

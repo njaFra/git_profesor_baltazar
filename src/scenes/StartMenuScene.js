@@ -26,6 +26,7 @@ export default class StartMenuScene extends BaseScene {
     await this.assets.loadImage('labyrinthLogo','/pictures/labyrinthGame/icon.webp');
     await this.assets.loadImage('tictactoeLogo','/pictures/tictactoeGame/krizic.webp');
     await this.assets.loadImage('ninjafruitLogo','/pictures/ninjafruitGame/sword1.webp');
+    await this.assets.loadImage('enigmaMachine', '/pictures/enigmaMachine/enigma.webp');
 
     this.games = [
       { name: "Ninja fruit", logo: this.assets.images.get('ninjafruitLogo').src, scene: "NinjaFruit" },
@@ -34,6 +35,7 @@ export default class StartMenuScene extends BaseScene {
       { name: "Memory", logo: this.assets.images.get('memoryLogo').src, scene: "Memory" },
       { name: "Labirint", logo: this.assets.images.get('labyrinthLogo').src, scene: "Labirint" },
       { name: "Križić-kružić", logo: this.assets.images.get('tictactoeLogo').src, scene: "TicTacToe" },
+      { name: "Enigma stroj", logo: this.assets.images.get('enigmaMachine').src, scene: "Enigma"}
     ];
     this.sceneEntryTime = performance.now();
     this.lastFrameGestures = {};
